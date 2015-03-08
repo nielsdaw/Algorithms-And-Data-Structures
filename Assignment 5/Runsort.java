@@ -53,27 +53,67 @@ public class Runsort {
             else if (less(aux[j], aux[i])) a[k] = aux[j++];
             else                           a[k] = aux[i++];
         }
-
     }
 
-    /**
-     * Rearranges the array in ascending order, using the natural order.
-     * @param a the array to be sorted
-     */
-    public static void sort(Comparable[] a) {
+    // /**
+    //  * Rearranges the array in ascending order, using the natural order.
+    //  * @param a the array to be sorted
+    //  */
+    // public static void sort(Comparable[] a) {
+    //     int N = a.length;
+    //     Comparable[] aux = new Comparable[N];
+
+        // for (int n = 1; n < N; n = n+n) {
+        //     for (int i = 0; i < N-n; i += n+n) {
+        //         int lo = i;
+        //         int m  = i+n-1;
+        //         int hi = Math.min(i+n+n-1, N-1);
+        //         merge(a, aux, lo, m, hi);
+        //     }
+        // }
+    //     assert isSorted(a);
+    // }
+
+
+    public static void sort(Comparable[] a){
         int N = a.length;
         Comparable[] aux = new Comparable[N];
-        for (int n = 1; n < N; n = n+n) {
-            for (int i = 0; i < N-n; i += n+n) {
-                int lo = i;
-                int m  = i+n-1;
-                int hi = Math.min(i+n+n-1, N-1);
-                merge(a, aux, lo, m, hi);
+        int hiIndex = 0;
+        int runs = 0;
+        int size = 1;
+        int lo = 0;
+        int hi = 0;
+        int m = 0;
+        int[] hiValues = new int[N];
+
+
+        // Round 1
+        for (int k = 1; k < N; k++) {
+            if(less(a[k-1], a[k])){
+                StdOut.println(a[k-1] + " is less than: " +a[k]);
+                size++;
             }
+            else{
+                ++runs;
+                StdOut.println("index: " + k + " runs: " + runs + " N is: " + N);
+                if(runs % 2 == 0){
+                    StdOut.println("IFindex: " + k + " runs: " + runs);
+                    hi = k -1;
+                    m = hi - size;
+                    StdOut.println("lo: " + lo + " mid: " + m + " hi: " + hi);
+                    merge(a, aux, lo, m, hi);
+                    hiValues[hiIndex] = hi;
+                    hiIndex++;
+                    lo = k;
+                }
+                size = 1;
+            }
+
         }
-        assert isSorted(a);
+        // Round 2
     }
 
+<<<<<<< HEAD
     public static void sort1(Comparable[] a) {
         int N = a.length;
         Comparable[] aux = new Comparable[N];
@@ -88,6 +128,13 @@ public class Runsort {
             }
         }
     }
+=======
+
+
+
+
+
+>>>>>>> 984537d2c92f1556ac5b692961a2b2c765b521e5
 
   /***********************************************************************
     *  Helper sorting functions
@@ -118,8 +165,9 @@ public class Runsort {
     // print array to standard output
     private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+            StdOut.print(a[i] + " ");
         }
+        StdOut.println();
     }
 
     /**
