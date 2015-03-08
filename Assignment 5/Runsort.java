@@ -34,8 +34,6 @@
  */
 public class Runsort {
 
-	//private static Comparable[] aux;	// auxiliary array for merges
-
     // This class should not be instantiated.
     private Runsort() { }
 
