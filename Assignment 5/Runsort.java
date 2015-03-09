@@ -55,69 +55,43 @@ public class Runsort {
         }
     }
 
-    // /**
-    //  * Rearranges the array in ascending order, using the natural order.
-    //  * @param a the array to be sorted
-    //  */
-    // public static void sort(Comparable[] a) {
-    //     int N = a.length;
-    //     Comparable[] aux = new Comparable[N];
-
-        // for (int n = 1; n < N; n = n+n) {
-        //     for (int i = 0; i < N-n; i += n+n) {
-        //         int lo = i;
-        //         int m  = i+n-1;
-        //         int hi = Math.min(i+n+n-1, N-1);
-        //         merge(a, aux, lo, m, hi);
-        //     }
-        // }
-    //     assert isSorted(a);
-    // }
-
-
+    // updated sort method
     public static void sort(Comparable[] a){
         int N = a.length;
         Comparable[] aux = new Comparable[N];
-        int hiIndex = 0;
-        int runs = 0;
-        int size = 1;
         int lo = 0;
+        int mid = 0;
         int hi = 0;
-        int m = 0;
-        int[] hiValues = new int[N];
+        int runs = 0;
+        while(!isSorted(a)){ // while not sorted
+            int size = 0;
+            for (int i = 1; i < N; i++){    // first run
+                if(less(a[i], a[i-1])){     
+                    if(size == 0){size = 1;} // the size is at minimum 1
+                    mid = i -1;
+                    lo = i - size;
+                    runs += 2;  // at this point there is two runs
 
-
-        // Round 1
-        for (int k = 1; k < N; k++) {
-            if(less(a[k-1], a[k])){
-                StdOut.println(a[k-1] + " is less than: " +a[k]);
-                size++;
-            }
-            else{
-                ++runs;
-                StdOut.println("index: " + k + " runs: " + runs + " N is: " + N);
-                if(runs % 2 == 0){
-                    StdOut.println("IFindex: " + k + " runs: " + runs);
-                    hi = k -1;
-                    m = hi - size;
-                    StdOut.println("lo: " + lo + " mid: " + m + " hi: " + hi);
-                    merge(a, aux, lo, m, hi);
-                    hiValues[hiIndex] = hi;
-                    hiIndex++;
-                    lo = k;
+                    if(i+1 == N){i = i-1;}  // avoid out of bounds
+                    for (int k = i+1; k < N; k++){  // second run
+                        if(less(a[k], a[k-1])){
+                            hi = k -1; 
+                            merge(a, aux, lo, mid, hi);
+                            size = 0;
+                            i = k;
+                            break; // break out
+                        }
+                    }
                 }
-                size = 1;
+                else{
+                    size++; // increment size of first run
+                }       
             }
-
-        }
-        // Round 2
+            if(runs % 2 == 0){  // merge if the total number of runs is equal
+                merge(a, aux, lo, mid, (N-1));
+            } 
+        }    
     }
-
-
-
-
-
-
 
   /***********************************************************************
     *  Helper sorting functions
