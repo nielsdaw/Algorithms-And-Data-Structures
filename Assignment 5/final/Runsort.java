@@ -1,36 +1,10 @@
-/*************************************************************************
- *  Compilation:  javac MergeBU.java
- *  Execution:    java MergeBU < input.txt
- *  Dependencies: StdOut.java StdIn.java
- *  Data files:   http://algs4.cs.princeton.edu/22mergesort/tiny.txt
- *                http://algs4.cs.princeton.edu/22mergesort/words3.txt
- *   
- *  Sorts a sequence of strings from standard input using
- *  bottom-up mergesort.
- *   
- *  % more tiny.txt
- *  S O R T E X A M P L E
- *
- *  % java MergeBU < tiny.txt
- *  A E E L M O P R S T X                 [ one string per line ]
- *    
- *  % more words3.txt
- *  bed bug dad yes zoo ... all bad yet
- *  
- *  % java MergeBU < words3.txt
- *  all bad bed bug dad ... yes yet zoo    [ one string per line ]
- *
- *************************************************************************/
-
 /**
- *  The <tt>MergeBU</tt> class provides static methods for sorting an
- *  array using bottom-up mergesort.
  *  <p>
- *  For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+ *   The following is based on MergeButtomUp code from: <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
  *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  *
- *  @author Robert Sedgewick
- *  @author Kevin Wayne
+ *  @author Jonas Tonny Nielsen
+ *  @author Niels Dawartz
  */
 public class Runsort {
 
@@ -55,7 +29,7 @@ public class Runsort {
         }
     }
 
-    // updated sort method
+    // Our version of the sort method
     public static void sort(Comparable[] a){
         int N = a.length;
         Comparable[] aux = new Comparable[N];
