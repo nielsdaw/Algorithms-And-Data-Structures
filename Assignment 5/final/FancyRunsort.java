@@ -5,12 +5,13 @@ public class FancyRunsort{
     **/
     public static void plotArray(Comparable[] a){
         double[] tmpArray = new double[a.length];
-        for (int i = 0; i < a.length; i++){
-            String tmp1 = (String) a[i];
-            char tmp2 = tmp1.charAt(0);
-            tmpArray[i] = (double) tmp2 / 100;
-        } 
-        plotBars(tmpArray);
+            for (int i = 0; i < a.length; i++){
+                String tmp1 = (String) a[i];
+                tmp1 = tmp1.toUpperCase();
+                char tmp2 = tmp1.charAt(0);   //  since uppercase has values within 0 - 90
+                tmpArray[i] = (double) tmp2 / 100;
+            } 
+            plotBars(tmpArray);
     }
 
     /**

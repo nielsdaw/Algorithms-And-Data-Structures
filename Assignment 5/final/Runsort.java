@@ -33,33 +33,28 @@ public class Runsort {
     public static void sort(Comparable[] a){
         int N = a.length;
         Comparable[] aux = new Comparable[N];
-        int lo = 0;
         int mid = 0;
         int hi = 0;
-        int runs = 0;
         while(!isSorted(a)){ // while not sorted
-            int size = 0;
+            int lo = 0; 
+            int runs = 0;
             for (int i = 1; i < N; i++){    // first run
-                if(less(a[i], a[i-1])){     
-                    if(size == 0){size = 1;} // the size is at minimum 1
-                    mid = i -1;
-                    lo = i - size;
-                    runs += 2;  // at this point there is two runs
-
-                    if(i+1 == N){i = i-1;}  // avoid out of bounds
-                    for (int k = i+1; k < N; k++){  // second run // ---> k = i ; check a[k] a[k+1]
+                if(less(a[i], a[i-1])){
+                    runs+=2;  // one run 
+                    mid = i -1; // mid is the previous
+                    lo = mid - lo; // low is the lowest from mid
+                    for (int k = i +1; k < N; k++){  // second run
                         if(less(a[k], a[k-1])){
-                            hi = k -1; 
+                            hi = k-1; 
                             merge(a, aux, lo, mid, hi); // merge
-                            size = 0;
-                            i = k;
+                            i = k ;
+                            lo = 0;
                             break; // break out
                         }
+                        i = k;
                     }
                 }
-                else{
-                    size++; // increment size of first run
-                }       
+                else{lo++;} // increment lo
             }
             if(runs % 2 == 0){  // merge if the total number of runs is equal
                 merge(a, aux, lo, mid, (N-1));
@@ -99,7 +94,8 @@ public class Runsort {
      * mergesorts them; and prints them to standard output in ascending order. 
      */
     public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings(); 
+        String[] a = StdIn.readAllStrings();
+        FancyRunsort.plotArray(a);
         Runsort.sort(a);
         show(a);
     }
