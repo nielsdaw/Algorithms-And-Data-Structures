@@ -35,26 +35,26 @@ public class Runsort {
         Comparable[] aux = new Comparable[N];
         int mid = 0;
         int hi = 0;
-        while(!isSorted(a)){ // while not sorted
+        while(!isSorted(a)){    // while not sorted
             int lo = 0; 
             int runs = 0;
             for (int i = 1; i < N; i++){    // first run
                 if(less(a[i], a[i-1])){
-                    runs+=2;  // one run 
-                    mid = i -1; // mid is the previous
-                    lo = mid - lo; // low is the lowest from mid
+                    runs+=2;    // at this point we have two runs 
+                    mid = i -1;     // mid is the previous
+                    lo = mid - lo;  // low is the lowest from mid
                     for (int k = i +1; k < N; k++){  // second run
                         if(less(a[k], a[k-1])){
                             hi = k-1; 
                             merge(a, aux, lo, mid, hi); // merge
                             i = k ;
                             lo = 0;
-                            break; // break out
+                            break;  // break out
                         }
-                        i = k;
+                        i = k;  // if there is no element greater above k, set i to k 
                     }
                 }
-                else{lo++;} // increment lo
+                else{lo++;}     // increment lo
             }
             if(runs % 2 == 0){  // merge if the total number of runs is equal
                 merge(a, aux, lo, mid, (N-1));
