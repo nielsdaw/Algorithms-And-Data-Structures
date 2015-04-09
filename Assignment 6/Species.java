@@ -1,7 +1,7 @@
 public class Species{
 	private String name;
 	private int[] vector;
-	private int counter = 0;
+	private int numberOfElements = 0;
 
 	public Species(String name, int d){
 		this.name = name;
@@ -16,17 +16,13 @@ public class Species{
 		return vector;
 	}
 
+	public int getNumberOfElements(){
+		return numberOfElements;
+	}
+
 	public void addToVector(int val){
-		vector[counter] = val;
-		counter++;
-	}
-
-	public void setEuclidianLength(double val){
-		euclidianLength = val;
-	}
-
-	public double getEuclidianLength(){
-		return euclidianLength;
+		vector[numberOfElements] = val;
+		numberOfElements++;
 	}
 
 }
