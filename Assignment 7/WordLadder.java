@@ -2,17 +2,16 @@ public class WordLadder{
 
 	public static void main(String[] args) {
 		
-		// String tmpWord1 = StdIn.readString();
-		// String tmpWOrd2 = StdIn.readString();
-
-		String s1 = "other";
-		String s2 = "there";
-		StdOut.println(containLetters(s1,s2));
-
 		
 
+		while(StdIn.hasNextLine()){
+			String s1 = StdIn.readString();
+			String s2 = StdIn.readString();
+			if(containLetters(s1,s2)){
+				// do stuff
+			}
+		}
 	}
-
 
 	public static boolean containLetters(String s1, String s2){
 		String tmp1 = sortString(s1.substring(1, s1.length()));
