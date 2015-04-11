@@ -1,5 +1,5 @@
 public class FancyRunsort{   
-    
+
     /**
     *   Convert array values to double, and invoke plotBars
     **/

@@ -95,7 +95,6 @@ public class Runsort {
      */
     public static void main(String[] args) {
         String[] a = StdIn.readAllStrings();
-        FancyRunsort.plotArray(a);
         Runsort.sort(a);
         show(a);
     }
