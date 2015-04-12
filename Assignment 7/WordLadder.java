@@ -33,41 +33,39 @@ public class WordLadder{
 		return sorted;
 	}
 
+	public static void shortestPath(String scource, String vertex, Digraph graph, LinearProbingHashST<String, Integer> vertices){
+		int scourceIndex = vertices.get(scource);
+		int vertexIndex = vertices.get(vertex);
+		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, scourceIndex);
+		if(p.hasPathTo(vertexIndex)){
+		// 	Iterable<Integer> path = p.pathTo(vertixIndex);
+		// 	for(Integer ints: path) {
+		// 		StdOut.println(ints);
+			StdOut.println(p.distTo(vertexIndex));
+		}
+		else{
+			StdOut.println(-1);
+		}
+		
+	}
+
 	public static void main(String[] args) {
-		//HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+		LinearProbingHashST<String, Integer> vertices = new LinearProbingHashST<String, Integer>();
 		String[] inputWords = StdIn.readAllStrings();
 		int v = inputWords.length;
 		Digraph graph = new Digraph(v);
-		Vertex[] vertices = new Vertex[v];
-
 		for(int i = 0; i < inputWords.length; i++){
 			String s1 = inputWords[i];
-			Vertex vertex1 = new Vertex(s1, i);
-			vertices[i] = vertex1;
+			vertices.put(s1, i);
 			for(int j = i+1; j < inputWords.length; j++){
 				String s2 = inputWords[j];
-				
-				if(containLetters(s1, s2) && !s1.equals(s2)){
-					//StdOut.println(s1 + " " + s2);
-					graph.addEdge(vertex1.getIndex(), j);
-				}
-				if(containLetters(s2, s1) && !s2.equals(s1)){
-					//StdOut.println(s1 + " " + s2);
-					graph.addEdge(j, vertex1.getIndex());
-				}
+				if(containLetters(s1, s2) && !s1.equals(s2)){graph.addEdge(i, j);}
+				if(containLetters(s2, s1) && !s2.equals(s1)){graph.addEdge(j, i);}
 			}
 		}
-		
+		shortestPath("about","there", graph, vertices);
 		//StdOut.println(graph.toString());
-
-		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, 6);
-		Iterable<Integer> path = p.pathTo(9);
-		
-		for(Integer ints: path) {
-			StdOut.println(ints);
-		}
 	}
-
 
 }
 
