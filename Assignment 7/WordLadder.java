@@ -44,7 +44,6 @@ public class WordLadder{
 			String s1 = inputWords[i];
 			Vertex vertex1 = new Vertex(s1, i);
 			vertices[i] = vertex1;
-			//StdOut.println(vertices[i-1]);
 			for(int j = i+1; j < inputWords.length; j++){
 				String s2 = inputWords[j];
 				
@@ -59,10 +58,9 @@ public class WordLadder{
 			}
 		}
 		
-		StdOut.println(graph.toString());
+		//StdOut.println(graph.toString());
 
 		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, 6);
-		int test = 1;
 		Iterable<Integer> path = p.pathTo(9);
 		
 		for(Integer ints: path) {
