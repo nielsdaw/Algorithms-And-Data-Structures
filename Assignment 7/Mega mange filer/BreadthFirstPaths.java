@@ -53,7 +53,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public class BreadthFirstPaths {
+public class BreadthFirstPaths1 {
     private static final int INFINITY = Integer.MAX_VALUE;
     private boolean[] marked;  // marked[v] = is there an s-v path
     private int[] edgeTo;      // edgeTo[v] = previous edge on shortest s-v path
@@ -65,7 +65,7 @@ public class BreadthFirstPaths {
      * @param G the graph
      * @param s the source vertex
      */
-    public BreadthFirstPaths(Graph G, int s) {
+    public BreadthFirstPaths1(Graph G, int s) {
         marked = new boolean[G.V()];
         distTo = new int[G.V()];
         edgeTo = new int[G.V()];
@@ -80,7 +80,7 @@ public class BreadthFirstPaths {
      * @param G the graph
      * @param sources the source vertices
      */
-    public BreadthFirstPaths(Graph G, Iterable<Integer> sources) {
+    public BreadthFirstPaths1(Graph G, Iterable<Integer> sources) {
         marked = new boolean[G.V()];
         distTo = new int[G.V()];
         edgeTo = new int[G.V()];

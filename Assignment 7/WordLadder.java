@@ -9,17 +9,14 @@ public class WordLadder{
 		for (int x = 0; x < 5 ; x++ ) {
 			if(x == 0){
 				String tmp3 = tmp2.substring(x, tmp2.length()-1);
-				StdOut.println(tmp3);
 				if(tmp1.equals(tmp3)){return true;}
 			}
 			else if(x == tmp2.length()-1){
-				String tmp3 = tmp2.substring(tmp2.length() - x, tmp2.length());
-				StdOut.println(tmp3);	
+				String tmp3 = tmp2.substring(tmp2.length() - x, tmp2.length());	
 				if(tmp1.equals(tmp3)){return true;}
 			}
 			else{
 				String tmp3 = tmp2.substring(0, x) + tmp2.substring(x+1);
-				StdOut.println(tmp3);
 				if(tmp1.equals(tmp3)){return true;}
 			}
 		}
@@ -37,25 +34,39 @@ public class WordLadder{
 	}
 
 	public static void main(String[] args) {
-		int v = 5757;
-		HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+		//HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+		String[] inputWords = StdIn.readAllStrings();
+		int v = inputWords.length;
 		Digraph graph = new Digraph(v);
-		int counter = 0; 
+		Vertex[] vertices = new Vertex[v];
 
-		while(StdIn.hasNextLine()){
-			int counter2 = 1;
-			String s1 = StdIn.readString();
-			Vertex vertex1 = new Vertex(s1, counter);
-			vertices.put(counter, vertex1);
-			while(StdIn.hasNextLine()){
-				String s2 = StdIn.readString();
-				Vertex vertex2 = new Vertex(s2, counter2);
-				if(containLetters(s1, s2)){
-					graph.addEdge(vertex1.getIndex(), vertex2.getIndex());
+		for(int i = 0; i < inputWords.length; i++){
+			String s1 = inputWords[i];
+			Vertex vertex1 = new Vertex(s1, i);
+			vertices[i] = vertex1;
+			//StdOut.println(vertices[i-1]);
+			for(int j = i+1; j < inputWords.length; j++){
+				String s2 = inputWords[j];
+				
+				if(containLetters(s1, s2) && !s1.equals(s2)){
+					//StdOut.println(s1 + " " + s2);
+					graph.addEdge(vertex1.getIndex(), j);
 				}
-				counter2++;
+				if(containLetters(s2, s1) && !s2.equals(s1)){
+					//StdOut.println(s1 + " " + s2);
+					graph.addEdge(j, vertex1.getIndex());
+				}
 			}
-			counter++;
+		}
+		
+		StdOut.println(graph.toString());
+
+		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, 6);
+		int test = 1;
+		Iterable<Integer> path = p.pathTo(9);
+		
+		for(Integer ints: path) {
+			StdOut.println(ints);
 		}
 	}
 
