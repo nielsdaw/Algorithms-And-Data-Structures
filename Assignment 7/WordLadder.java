@@ -1,17 +1,16 @@
 import java.util.HashMap;
 
 public class WordLadder{
-	private final int vertices = 5757;
-	private Map<Vertex> vertices = new HashMap<Vertex>();
-
 	
+
+
 	private class Vertex{
 		private int index;
 		private String word;
 
-		public Vertex(String word, int index){
-			this.word = word;
-			this.index = index;
+		public Vertex(String w, int i){
+			word = w;
+			index = i;
 		}
 
 		public int getIndex(){
@@ -22,7 +21,6 @@ public class WordLadder{
 			return word;
 		}
 	}
-
 
 	public static boolean containLetters(String s1, String s2){
 		String tmp1 = sortString(s1.substring(1, s1.length()));
@@ -59,14 +57,21 @@ public class WordLadder{
 	}
 
 	public static void main(String[] args) {
-		Digraph graph = new Digraph(vertices);
+		int v = 5757;
+		HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+		Digraph graph = new Digraph(v);
+		int counter = 0; 
 
 		while(StdIn.hasNextLine()){
+			int counter2 = 1;
 			String s1 = StdIn.readString();
+			Vertex vertex1 = new Vertex(s1, counter);
+			vertices.add(vertex1);
 			while(StdIn.hasNextLine()){
 				String s2 = StdIn.readString();
-				if(containLetters(s1,s2)){
-
+				Vertex vertex2 = new Vertex(s2, counter2);
+				if(containLetters(s1, s2)){
+					graph.addEdge(vertex1.getIndex(), vertex2.getIndex());
 				}
 			}
 		}
