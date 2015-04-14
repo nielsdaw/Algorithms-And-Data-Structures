@@ -14,4 +14,8 @@ public class Vertex{
 	public String getWord(){
 		return word;
 	}
+
+	public void setIndex(int index){
+		this.index = index;
+	}
 }
