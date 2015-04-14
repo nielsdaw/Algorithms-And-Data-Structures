@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class WordLadder{
 
@@ -38,9 +38,6 @@ public class WordLadder{
 		int vertexIndex = vertices.get(vertex);
 		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, scourceIndex);
 		if(p.hasPathTo(vertexIndex)){
-		// 	Iterable<Integer> path = p.pathTo(vertixIndex);
-		// 	for(Integer ints: path) {
-		// 		StdOut.println(ints);
 			StdOut.println(p.distTo(vertexIndex));
 		}
 		else{
@@ -51,7 +48,11 @@ public class WordLadder{
 
 	public static void main(String[] args) {
 		LinearProbingHashST<String, Integer> vertices = new LinearProbingHashST<String, Integer>();
+		LinearProbingHashST<String, String> fourLetterWords = new LinearProbingHashST<String, String>();
+		
 		String[] inputWords = StdIn.readAllStrings();
+
+		Arrays.sort(inputWords);
 		int v = inputWords.length;
 		Digraph graph = new Digraph(v);
 		for(int i = 0; i < inputWords.length; i++){
