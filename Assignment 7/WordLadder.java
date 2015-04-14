@@ -24,21 +24,24 @@ public class WordLadder{
 	}
 
 
-	public static void mapFourLetterWords(String s1, RedBlackBST<String, String> tree){
+	public static void mapFourLetterWords(String s1, RedBlackBST<String, Word> tree){
 		String tmp1 = sortString(s1);
-
+		Word tmpWord = new Word();
 		for (int x = 0; x < tmp1.length() ; x++ ) {
 			if(x == 0){
 				String tmp2 = tmp1.substring(x, tmp1.length()-1);
-				tree.put(tmp2, s1);
+				tmpWord.addWord(s1);
+				tree.put(tmp2, tmpWord);
 			}
 			else if(x == tmp1.length()-1){
-				String tmp2 = tmp1.substring(tmp1.length() - x, tmp1.length());	
-				tree.put(tmp2, s1);
+				String tmp2 = tmp1.substring(tmp1.length() - x, tmp1.length());
+				tmpWord.addWord(s1);
+				tree.put(tmp2, tmpWord);
 			}	
 			else{
 				String tmp2 = tmp1.substring(0, x) + tmp1.substring(x+1);
-				tree.put(tmp2, s1);
+				tmpWord.addWord(s1);
+				tree.put(tmp2, tmpWord);
 			}
 		}
 	}
@@ -72,10 +75,10 @@ public class WordLadder{
 
 	public static void main(String[] args) {
 		// LinearProbingHashST<String, Integer> vertices = new LinearProbingHashST<String, Integer>();
-		
 		String[] inputWords = StdIn.readAllStrings();
 		RedBlackBST<String, Vertex> tree = new RedBlackBST<String, Vertex>();
-		RedBlackBST<String, String> fourLetterTree = new RedBlackBST<String, String>();
+		RedBlackBST<String, Word> fourLetterTree = new RedBlackBST<String, Word>();
+
 		int v = inputWords.length;
 		int counter = 0;
 		int counter2 = 1;
@@ -86,10 +89,8 @@ public class WordLadder{
 			mapFourLetterWords(s, fourLetterTree);
 		}
 		Iterator iterator = fourLetterTree.keys().iterator();
-		// iterator.next();
 		boolean marked = false;
 		String tmpFourLetterWord2 = "";
-
 		
 		for (String v1: tree.keys()) {
 			tree.get(v1).setIndex(counter);
@@ -103,22 +104,23 @@ public class WordLadder{
 					tmpFourLetterWord2 = (String) iterator.next();
 					StdOut.println("current next: " + tmpFourLetterWord2 + " val: " + tmpFourLetterWord2.hashCode());
 				}
-
-				if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) < 1){
-					
-					marked = false;
-					if(tmpFourLetterWord2.equals(tmpFourLetterWord1)){
-						StdOut.println(tmpFourLetterWord2 + " equals " + tmpFourLetterWord1);
-						graph.addEdge(counter, counter2);
-						counter2++;
-					}
-				}
-				else if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) > 0){
+				if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) > 0){
 					marked = true;
 					break;
 				}
+				else if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) < 1){
+					marked = false;
+					if(tmpFourLetterWord2.equals(tmpFourLetterWord1)){
+						StdOut.println(tmpFourLetterWord2 + " equals " + tmpFourLetterWord1);
+						StdOut.println(tmpWord + " equals " + fourLetterTree.get(tmpFourLetterWord2));
+
+
+						// graph.addEdge(counter2, counter);
+						++counter2;
+					}
+				}
 			}
-			counter++;
+			++counter;
 		}
 
 
@@ -132,7 +134,7 @@ public class WordLadder{
 		// 	}
 		// }
 		// //shortestPath("about","there", graph, vertices);
-		StdOut.println(graph.toString());
+		// StdOut.println(graph.toString());
 
 		for(String s: tree.keys()){
 			StdOut.println(tree.get(s).getWord() + " has index " + tree.get(s).getIndex());
