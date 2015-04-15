@@ -24,24 +24,51 @@ public class WordLadder{
 	}
 
 
-	public static void mapFourLetterWords(String s1, RedBlackBST<String, Word> tree){
+	public static void mapFourLetterWords(String s1, int index, LinearProbingHashST<String, Word> st){
 		String tmp1 = sortString(s1);
-		Word tmpWord = new Word();
+		boolean exists = false;
+		Word tmpWord;
+		Vertex tmpVertex;
+		
 		for (int x = 0; x < tmp1.length() ; x++ ) {
 			if(x == 0){
 				String tmp2 = tmp1.substring(x, tmp1.length()-1);
-				tmpWord.addWord(s1);
-				tree.put(tmp2, tmpWord);
+				if(st.get(tmp2) != null){
+					tmpWord = st.get(tmp2);
+					tmpWord.addVertex(tmpVertex);
+				}
+				else{
+					tmpVertex = new Vertex(s1, index);
+					tmpWord = new Word(tmpVertex);
+					st.put(tmp2, tmpWord.add(tmpWord));
+				}
+				
 			}
 			else if(x == tmp1.length()-1){
 				String tmp2 = tmp1.substring(tmp1.length() - x, tmp1.length());
-				tmpWord.addWord(s1);
-				tree.put(tmp2, tmpWord);
+				if(st.get(tmp2) != null){
+					tmpWord  = st.get(tmp2);
+					tmpWord.addVertex(tmpVertex);
+				}
+				else{
+					tmpVertex = new Vertex(s1, index);
+					tmpWord = new Word(tmpVertex);
+					tmpWord.addVertex(tmpVertex);
+					st.put(tmp2, tmpWord.add(tmpWord));
+				}
 			}	
 			else{
 				String tmp2 = tmp1.substring(0, x) + tmp1.substring(x+1);
-				tmpWord.addWord(s1);
-				tree.put(tmp2, tmpWord);
+				if(st.get(tmp2) != null){
+					tmpWord = st.get(tmp2);
+					tmpWord.addVertex(tmpVertex);
+				}
+				else{
+					tmpVertex = new Vertex(s1, index);
+					tmpWord = new Word(tmpVertex);
+					tmpWord.addVertex(tmpVertex);
+					st.put(tmp2, tmpWord.add(tmpWord));
+				}
 			}
 		}
 	}
@@ -77,7 +104,7 @@ public class WordLadder{
 		// LinearProbingHashST<String, Integer> vertices = new LinearProbingHashST<String, Integer>();
 		String[] inputWords = StdIn.readAllStrings();
 		RedBlackBST<String, Vertex> tree = new RedBlackBST<String, Vertex>();
-		RedBlackBST<String, Word> fourLetterTree = new RedBlackBST<String, Word>();
+		LinearProbingHashST<String, Word> fourLetterTree = new LinearProbingHashST<String, Word>();
 
 		int v = inputWords.length;
 		int counter = 0;
@@ -86,44 +113,20 @@ public class WordLadder{
 
 		for (String s: inputWords){
 			tree.put(s, new Vertex(s,0));
-			mapFourLetterWords(s, fourLetterTree);
 		}
+
+		int count = 0;
+		for(Vertex vertex: tree){
+			vertex.setIndex(count);
+			mapFourLetterWords(vertex.getWord(), vertex.getIndex(), tree);
+			count++;
+		}
+
 		Iterator iterator = fourLetterTree.keys().iterator();
 		boolean marked = false;
-		String tmpFourLetterWord2 = "";
+
+
 		
-		for (String v1: tree.keys()) {
-			tree.get(v1).setIndex(counter);
-			String tmpWord = v1;
-			String tmpFourLetterWord1 = sortString(tmpWord.substring(1));
-			StdOut.println("original word: "+ v1 +" --- word to be matched: " + tmpFourLetterWord1 + " val: " + tmpFourLetterWord1.hashCode());
-			
-			while(iterator.hasNext() ){
-				
-				if(!marked){
-					tmpFourLetterWord2 = (String) iterator.next();
-					StdOut.println("current next: " + tmpFourLetterWord2 + " val: " + tmpFourLetterWord2.hashCode());
-				}
-				if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) > 0){
-					marked = true;
-					break;
-				}
-				else if(tmpFourLetterWord2.compareTo(tmpFourLetterWord1) < 1){
-					marked = false;
-					if(tmpFourLetterWord2.equals(tmpFourLetterWord1)){
-						StdOut.println(tmpFourLetterWord2 + " equals " + tmpFourLetterWord1);
-						StdOut.println(tmpWord + " equals " + fourLetterTree.get(tmpFourLetterWord2));
-
-
-						// graph.addEdge(counter2, counter);
-						++counter2;
-					}
-				}
-			}
-			++counter;
-		}
-
-
 		// for(int i = 0; i < inputWords.length; i++){
 		//  	String s1 = inputWords[i];
 		//  	vertices.put(s1, i);

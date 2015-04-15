@@ -1,14 +1,14 @@
 import java.util.Iterator;
 
 public class Word{
-	private Bag<String> bag;	
+	private Bag<Vertex> bag;	
 
 	public Word(){
 		bag = new Bag();
 	}
 
-	public void addWord(String word){
-			bag.add(word);
+	public void addVertex(Vertex v){
+			bag.add(v);
 		}
 
 	public Iterator getWordsFromBag(){
