@@ -5,11 +5,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+/* 
+* 
+* By Niels Christian Dawartz and Jonas Tonny Nielsen
+*
+* Please run the program like this:
+* java WordLadder words-5757-in.txt < words-5757.txt
+* 
+**/
 
 public class WordLadder{
-
+	// Maps a LinkedBag of vertices to a four letter combo of some String s
 	public static void mapFourLetters(String s, ST st, int index){
-		//String tmp1 = sortString(s1.substring(1, s1.length()));
 		String inputString = sortString(s);
 		Vertex v = new Vertex(s, index);
 		boolean seen = false;
@@ -73,6 +80,7 @@ public class WordLadder{
 		}
 	}
 
+	// Sorts a string and returns it
 	public static String sortString(String s){
 		String[] arr = s.split("");
 		Quick.sort(arr);
@@ -83,6 +91,7 @@ public class WordLadder{
 		return sorted;
 	}
 
+	// Prints information about a given path, -1 if it doesn't exists
 	public static void shortestPath(String scource, String vertex, Digraph graph, ST<String, Integer> vertices, String[] inputWords){
 		int scourceIndex = vertices.get(scource);
 		int vertexIndex = vertices.get(vertex);
@@ -117,7 +126,7 @@ public class WordLadder{
 		}
 
 		Digraph graph = new Digraph(inputWords.length);
-		
+		// Builds the graph
 		for (int i = 0; i < inputWords.length; i++) {
 			if(fourLetterWords.contains(sortString(inputWords[i].substring(1)))) {
 				LinkedBag lb = (LinkedBag) fourLetterWords.get(sortString(inputWords[i].substring(1)));
@@ -130,6 +139,7 @@ public class WordLadder{
 			}
 		}
 
+		// Reads args[0] (words-xxxx-in.txt), prints a message otherwise
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(args[0]));
 			String line;
