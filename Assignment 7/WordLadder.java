@@ -1,6 +1,10 @@
 import java.util.Arrays;
 import java.lang.Iterable;
 import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class WordLadder{
 
@@ -18,9 +22,7 @@ public class WordLadder{
 					lb = (LinkedBag) st.get(inputStringShort);
 					for (Object o: lb) {
 						Vertex vert = (Vertex) o;
-						if (vert.getWord().equals(s)) {
-							seen = true;
-						}
+						if (vert.getWord().equals(s)) {seen = true;}
 					}
 					if(!seen) {
 						lb.add(v);
@@ -38,9 +40,7 @@ public class WordLadder{
 					lb = (LinkedBag) st.get(inputStringShort);
 					for (Object o: lb) {
 						Vertex vert = (Vertex) o;
-						if (vert.getWord().equals(s)) {
-							seen = true;
-						}
+						if (vert.getWord().equals(s)) {seen = true;}
 					}
 					if(!seen) {
 						lb.add(v);
@@ -58,9 +58,7 @@ public class WordLadder{
 					lb = (LinkedBag) st.get(inputStringShort);
 					for (Object o: lb) {
 						Vertex vert = (Vertex) o;
-						if (vert.getWord().equals(s)) {
-							seen = true;
-						}
+						if (vert.getWord().equals(s)) {seen = true;}
 					}
 					if(!seen) {
 						lb.add(v);
@@ -85,12 +83,16 @@ public class WordLadder{
 		return sorted;
 	}
 
-	public static void shortestPath(String scource, String vertex, Digraph graph, ST<String, Integer> vertices){
+	public static void shortestPath(String scource, String vertex, Digraph graph, ST<String, Integer> vertices, String[] inputWords){
 		int scourceIndex = vertices.get(scource);
 		int vertexIndex = vertices.get(vertex);
 		BreadthFirstDirectedPaths p = new BreadthFirstDirectedPaths(graph, scourceIndex);
 		if(p.hasPathTo(vertexIndex)){
-			StdOut.println(p.distTo(vertexIndex));
+			StdOut.println(p.distTo(vertexIndex) + " (dist) with the path: ");
+			for (Integer i : p.pathTo(vertexIndex)) {
+				StdOut.print(inputWords[i] + " ");
+			}
+			StdOut.println();
 		}
 		else{
 			StdOut.println(-1);
@@ -119,8 +121,6 @@ public class WordLadder{
 		for (int i = 0; i < inputWords.length; i++) {
 			if(fourLetterWords.contains(sortString(inputWords[i].substring(1)))) {
 				LinkedBag lb = (LinkedBag) fourLetterWords.get(sortString(inputWords[i].substring(1)));
-
-
 				for (Object o: lb) {
 					Vertex v = (Vertex) o;
 					if (!v.getWord().equals(inputWords[i])) {
@@ -130,12 +130,20 @@ public class WordLadder{
 			}
 		}
 
-		shortestPath("zombi", "aargh", graph, indexFix);
-		shortestPath("aargh", "zombi", graph, indexFix);
-		shortestPath("altos", "duets", graph, indexFix);
-		shortestPath("daily", "hones", graph, indexFix);
-		shortestPath("bring", "beers", graph, indexFix);
-		shortestPath("oared", "oared", graph, indexFix);
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(args[0]));
+			String line;
+			while((line = in.readLine()) != null) {
+				String w1 = line.substring(0, 5);
+				String w2 = line.substring(6);
+				StdOut.println("\n" + w1 + " to " + w2);
+				shortestPath(w1, w2, graph, indexFix, inputWords);
+			}
+			in.close();
+		}
+		catch (Exception e1) {
+			StdOut.println("No in-file given as argument\nPlease use this program like so:\njava WordLadder words-5757-in.txt < words-5757.txt");
+		}
 	}
 }
 
