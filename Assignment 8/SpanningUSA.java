@@ -20,6 +20,6 @@ public class SpanningUSA {
 		}
 		KruskalMST mst = new KruskalMST(ewg);
 		StdOut.println(mst.weight());
-		//StdOut.println(ewg.toString()); // Prints a representation of the graph. Comment/Uncomment as necessary.
+		StdOut.println(ewg.toString()); // Prints a representation of the graph. Comment/uncomment as necessary.
 	}
 }
