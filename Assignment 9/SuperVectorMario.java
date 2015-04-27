@@ -5,10 +5,11 @@ public class SuperVectorMario {
 		String[] input = StdIn.readAllLines();
 		
 		char[][] grid = new char[rows][colums];
-		for(int i = 0; i < rows; i++) {
+
+		for(int i = 1; i < rows; i++) {
 			for(int j = 0; j < colums; j++) {
 				grid[i][j] = input[i].charAt(j);
-				StdOut.println(grid[i][j]);
+				StdOut.print(grid[i][j]);
 			}
 		}
 	}
