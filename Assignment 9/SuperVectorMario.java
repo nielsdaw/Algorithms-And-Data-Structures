@@ -31,9 +31,11 @@ public class SuperVectorMario {
 
 		while(!start.isEmpty()) {
 			Vertex v = (Vertex) start.dequeue();
+			int velx = 0;
+			int vely = 0;
 			int vx = v.getX();
 			int vy = v.getY();
-			Queue move = createQ(vx, vy); // what is the velocity?
+			Queue move = createQ(vx, vy, velx, vely); // what is the velocity?
 			while(!move.isEmpty()) {
 				Vertex v1 = (Vertex) move.dequeue();
 			}
