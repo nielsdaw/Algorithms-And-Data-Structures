@@ -1,90 +1,58 @@
 import java.util.ArrayList;
 
 public class SuperVectorMario {
-	private static ArrayList<Vertex> start = new ArrayList<>();
-
-	// private static ResizingArrayStack start = new ResizingArrayStack();
-	private static ST finish = new ST();	// keys ="x,y"
-	private static ST board = new ST();		// keys = "x,y"
-	private static Queue moves = new Queue();
-	
-	
 
 	public static void main(String[] args) {
 		int rows = StdIn.readInt();
 		int colums = StdIn.readInt();
 		StdIn.readChar(); 		// remove linespace
+		StdIn.readChar();		// remove some annoying input crap
 
-		String[] input = StdIn.readAllLines();	// 
+		String[] input = StdIn.readAllLines();
 		char[][] grid = new char[rows][colums];
+		ST board = new ST();
+		Queue start = new Queue();
+		ST finish = new ST();
 
-		Digraph graph = new Digraph(rows*colums);	// digraph
+		Graph graph = new Graph(rows*colums);	// Graph
 
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < colums; j++) {
 				grid[i][j] = input[i].charAt(j);
-				addToBoard(String.valueOf(input[i].charAt(j)),j, i);
+				if 		(input[i].equals(" ")) {board.put((i*colums)+j+1, new Vertex(i, j));}
+				else if (input[i].equals("S")) {start.enqueue(new Vertex(i, j));}
+				else if (input[i].equals("F")) {finish.put((i*colums)+j+1, new Vertex(i, j));}
 
-				StdOut.print(grid[i][j]);
+				StdOut.println((i*colums)+j+1);
+				//StdOut.print(grid[i][j]);
 			}
 			StdOut.print("\n");
 		}
 
-		// for (Object s: board.keys()) {
-		// 	String tmp = (String) s;
-		// 	Vertex v =  (Vertex) board.get(tmp);
-		// 	StdOut.println("x: " + v.getX() + " y: " + v.getY());
-		// }
-
-		for (Vertex v: start) {
-			move(v);
-		}
-
-
-
-
-
-	}
-
-
-	public static void addToBoard(String s, int x, int y){
-		String key = String.valueOf(x) + "," + String.valueOf(y);
-		Vertex tmp = new Vertex(x,y);
-
-		if(!s.equals("O")){
-			if(s.equals("S")) {start.add(tmp);}	// add to start
-
-			else if(s.equals("F")) {finish.put(key, tmp);}	// add to finish
-			board.put(key, tmp);	// add to board
+		while(!start.isEmpty()) {
+			Vertex v = (Vertex) start.dequeue();
+			int vx = v.getX();
+			int vy = v.getY();
+			Queue move = createQ(vx, vy); // what is the velocity?
+			while(!move.isEmpty()) {
+				Vertex v1 = (Vertex) move.dequeue();
+			}
 		}
 	}
 
-
-	public static void move(Vertex v){
-		Queue moves = new Queue();
-		int x1 = v.getX();
-		int y1 =  v.getY();
-
-		StdOut.println("start: " + x1 + ","+  y1);
-
-
-
-		for (int i = -1; i < 2; i++) {
-			moves.enqueue(new Vertex(x1 + i, y1));
-			moves.enqueue(new Vertex(x1, y1 +i ));
-			moves.enqueue(new Vertex(x1 + i, y1 + i)); 
-
-			StdOut.println("q" +i + " v: " + (x1 + i) + ","+  y1);
-			StdOut.println("q" +i + " v: " + x1 + ","+ (y1+i));
-			StdOut.println("q" +i + " v: " + (x1 + i) + ","+  (i+ y1));
-		}
-
-
-
-
-		
+	public static Queue createQ(int sx, int sy, int dx, int dy) {
+		int x = sx+dx;
+		int y = sy+dy;
+		Queue q = new Queue();
+		q.enqueue(new Vertex(x+1,y+1));
+		q.enqueue(new Vertex(x,y+1));
+		q.enqueue(new Vertex(x+1,y));
+		q.enqueue(new Vertex(x-1,y-1));
+		q.enqueue(new Vertex(x-1,y));
+		q.enqueue(new Vertex(x,y-1));
+		q.enqueue(new Vertex(x-1,y+1));
+		q.enqueue(new Vertex(x+1,y-1));
+		q.enqueue(new Vertex(x,y));
+		return q;
 	}
-
-
-
 }
