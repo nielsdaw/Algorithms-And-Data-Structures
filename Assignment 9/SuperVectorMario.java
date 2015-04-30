@@ -19,9 +19,9 @@ public class SuperVectorMario {
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < colums; j++) {
 				grid[i][j] = input[i].charAt(j);
-				if 		(input[i].equals(" ")) {board.put((i*colums)+j+1, new Vertex(i, j));}
+				if 		(input[i].equals(" ")) {board.put((i*colums)+j+1, new Vertex(i, j, 0, 0));}
 				else if (input[i].equals("S")) {start.enqueue(new Vertex(i, j));}
-				else if (input[i].equals("F")) {finish.put((i*colums)+j+1, new Vertex(i, j));}
+				else if (input[i].equals("F")) {finish.put((i*colums)+j+1, new Vertex(i, j, 0, 0));}
 
 				StdOut.println((i*colums)+j+1);
 				//StdOut.print(grid[i][j]);
@@ -46,15 +46,15 @@ public class SuperVectorMario {
 		int x = sx+dx;
 		int y = sy+dy;
 		Queue q = new Queue();
-		q.enqueue(new Vertex(x+1,y+1));
-		q.enqueue(new Vertex(x,y+1));
-		q.enqueue(new Vertex(x+1,y));
-		q.enqueue(new Vertex(x-1,y-1));
-		q.enqueue(new Vertex(x-1,y));
-		q.enqueue(new Vertex(x,y-1));
-		q.enqueue(new Vertex(x-1,y+1));
-		q.enqueue(new Vertex(x+1,y-1));
-		q.enqueue(new Vertex(x,y));
+		q.enqueue(new Vertex(x+1, y+1, dx+1, dy+1));
+		q.enqueue(new Vertex(x, y+1, dx, dy+1));
+		q.enqueue(new Vertex(x+1, y, dx+1, dy));
+		q.enqueue(new Vertex(x-1, y-1, dx-1, dy-1));
+		q.enqueue(new Vertex(x-1, y, dx-1, dy));
+		q.enqueue(new Vertex(x, y-1, dx, dy-1));
+		q.enqueue(new Vertex(x-1, y+1, dx-1, dy+1));
+		q.enqueue(new Vertex(x+1, y-1, dx+1, dy-1));
+		q.enqueue(new Vertex(x, y, dx, dy));
 		return q;
 	}
 }

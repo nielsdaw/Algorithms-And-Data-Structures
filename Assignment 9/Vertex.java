@@ -5,7 +5,7 @@ public class Vertex{
 	private int dx;
 	private int dy;
 
-	private boolean visited = false;
+	private boolean visited;
 
 	public Vertex(int x, int y, int dx, int dy){
 		this.x = x;
@@ -20,5 +20,9 @@ public class Vertex{
 
 	public int getY(){
 		return y;
+	}
+
+	public void setVisited() {
+		visited = true;
 	}
 }
