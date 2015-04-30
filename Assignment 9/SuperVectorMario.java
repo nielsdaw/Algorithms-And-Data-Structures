@@ -28,7 +28,7 @@ public class SuperVectorMario {
 			Vertex v = (Vertex) start.dequeue();
 			Queue move = new Queue();
 			move.enqueue(v);
-			StdOut.println(v.getX() + ", " + v.getY() + " and " +  v.getDX() + ", " + v.getDY() + ", "  );
+			StdOut.println(v.getX() + ", " + v.getY() + " and " +  v.getDX() + ", " + v.getDY());
 			StdOut.println("Fest?");
 			while(!move.isEmpty()) {
 				Vertex v1 = (Vertex) move.dequeue();
@@ -38,7 +38,7 @@ public class SuperVectorMario {
 						StdOut.println(startX + ", " + startY);
 						if (isLegalXY(startX, startY, rows-1, colums-1) && Character.toString(grid[startX][startY]).equals(" ")) { // JEG MANGLER AT TJEKKE ALLEREDE BESØGTE V'S
 							move.enqueue(new Vertex(startX, startY, startX-v1.getX(), startY-v1.getY()));
-							StdOut.println("StartX: " + startX + " StartY: " + startY);
+							StdOut.println("move.size(): " + move.size());
 						}
 					}
 				}
