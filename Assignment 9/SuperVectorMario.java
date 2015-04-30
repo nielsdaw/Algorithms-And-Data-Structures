@@ -9,52 +9,48 @@ public class SuperVectorMario {
 		StdIn.readChar();		// remove some annoying input crap
 
 		String[] input = StdIn.readAllLines();
-		char[][] grid = new char[rows][colums];
-		ST board = new ST();
+		char[][] grid = new char[colums][rows];
 		Queue start = new Queue();
-		ST finish = new ST();
+		ArrayList finish = new ArrayList<Vertex>();
 
 		Graph graph = new Graph(rows*colums);	// Graph
 
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < colums; j++) {
-				grid[i][j] = input[i].charAt(j);
-				if 		(input[i].equals(" ")) {board.put((i*colums)+j+1, new Vertex(i, j, 0, 0));}
-				else if (input[i].equals("S")) {start.enqueue(new Vertex(i, j));}
-				else if (input[i].equals("F")) {finish.put((i*colums)+j+1, new Vertex(i, j, 0, 0));}
-
-				StdOut.println((i*colums)+j+1);
-				//StdOut.print(grid[i][j]);
+				StdOut.println(j + ", " + i);
+				grid[j][i] = input[i].charAt(j);
+				if (Character.toString(input[i].charAt(j)).equals("S")) {start.enqueue(new Vertex(j, i, 0, 0)); StdOut.println("Added to start " + j + ", " + i + " " + Character.toString(input[i].charAt(j)));}
+				else if (input[i].equals("F")) {finish.add(new Vertex(i, j, 0, 0));}
 			}
-			StdOut.print("\n");
 		}
 
 		while(!start.isEmpty()) {
 			Vertex v = (Vertex) start.dequeue();
-			int velx = 0;
-			int vely = 0;
-			int vx = v.getX();
-			int vy = v.getY();
-			Queue move = createQ(vx, vy, velx, vely); // what is the velocity?
+			Queue move = new Queue();
+			move.enqueue(v);
+			StdOut.println(v.getX() + ", " + v.getY() + " and " +  v.getDX() + ", " + v.getDY() + ", "  );
+			StdOut.println("Fest?");
 			while(!move.isEmpty()) {
 				Vertex v1 = (Vertex) move.dequeue();
+				//StdOut.println("Fest!");
+				for (int startX = v1.getX()+v1.getDX()-1; startX <= v1.getX()+v1.getDX()+1; startX++) {
+					for (int startY = v1.getY()+v1.getDY()-1; startY <= v1.getY()+v1.getDY()+1; startY++) {
+						StdOut.println(startX + ", " + startY);
+						if (isLegalXY(startX, startY, rows-1, colums-1) && Character.toString(grid[startX][startY]).equals(" ")) { // JEG MANGLER AT TJEKKE ALLEREDE BESØGTE V'S
+							move.enqueue(new Vertex(startX, startY, startX-v1.getX(), startY-v1.getY()));
+							StdOut.println("StartX: " + startX + " StartY: " + startY);
+						}
+					}
+				}
+				StdOut.println("Done!");
 			}
+			StdOut.println("inner while is empty");
 		}
+		StdOut.println("Outer while is empty");
 	}
 
-	public static Queue createQ(int sx, int sy, int dx, int dy) {
-		int x = sx+dx;
-		int y = sy+dy;
-		Queue q = new Queue();
-		q.enqueue(new Vertex(x+1, y+1, dx+1, dy+1));
-		q.enqueue(new Vertex(x, y+1, dx, dy+1));
-		q.enqueue(new Vertex(x+1, y, dx+1, dy));
-		q.enqueue(new Vertex(x-1, y-1, dx-1, dy-1));
-		q.enqueue(new Vertex(x-1, y, dx-1, dy));
-		q.enqueue(new Vertex(x, y-1, dx, dy-1));
-		q.enqueue(new Vertex(x-1, y+1, dx-1, dy+1));
-		q.enqueue(new Vertex(x+1, y-1, dx+1, dy-1));
-		q.enqueue(new Vertex(x, y, dx, dy));
-		return q;
+	public static boolean isLegalXY(int x, int y, int rows, int colums) {
+		if (x < 0 || y < 0 || x > colums || y > rows) {return false;}
+		else {return true;}
 	}
 }

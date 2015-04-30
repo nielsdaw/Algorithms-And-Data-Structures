@@ -1,4 +1,4 @@
-public class Vertex{
+public class Vertex implements Comparable<Vertex>{
 	
 	private int x;
 	private int y;
@@ -22,7 +22,25 @@ public class Vertex{
 		return y;
 	}
 
+	public int getDX(){
+		return dx;
+	}
+
+	public int getDY(){
+		return dy;
+	}
+
 	public void setVisited() {
 		visited = true;
+	}
+
+	public boolean getVisited() {
+		return visited;
+	}
+
+	@Override
+	public int compareTo(Vertex v) {
+		if (this.x == v.getX() && this.y == v.getY() && this.dx == v.getDX() && this.dy == getDY()) {return 0;}
+		else {return 1;}
 	}
 }
