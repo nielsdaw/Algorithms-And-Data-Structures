@@ -4,13 +4,21 @@ public class Vertex implements Comparable<Vertex>{
 	private int y;
 	private int dx;
 	private int dy;
-	private boolean visited;
+	private int index;
 
 	public Vertex(int x, int y, int dx, int dy){
 		this.x = x;
 		this.y = y;
 		this.dx = dx;
 		this.dy = dy;
+	}
+
+	public Vertex(int x, int y, int dx, int dy, int index){
+		this.x = x;
+		this.y = y;
+		this.dx = dx;
+		this.dy = dy;
+		this.index = index;
 	}
 
 	public int getX(){
@@ -29,12 +37,12 @@ public class Vertex implements Comparable<Vertex>{
 		return dy;
 	}
 
-	public void setVisited() {
-		visited = true;
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
-	public boolean getVisited() {
-		return visited;
+	public int getIndex() {
+		return index;
 	}
 
 	@Override
