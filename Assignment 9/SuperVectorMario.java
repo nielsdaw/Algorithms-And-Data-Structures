@@ -1,11 +1,9 @@
-import java.lang.Iterable;
-import java.util.Iterator;
-
 public class SuperVectorMario {
 	public static void main(String[] args) {
 		int rows = StdIn.readInt();
 		int colums = StdIn.readInt();
 		StdIn.readChar(); 						// remove linespace
+		StdIn.readChar(); 					// remove extra linespace (for Windows) if you get an index out of bounds error
 		String[] input = StdIn.readAllLines();	
 		char[][] grid = new char[colums][rows];	// stores all coordinates in a grid
 		Queue move = new Queue();				// Queue for moves
@@ -40,7 +38,7 @@ public class SuperVectorMario {
 			}
 		}
 
-		int shortestMoves = 1000000;
+		int shortestMoves = Integer.MAX_VALUE;
 		for (Object o1: start) {
 			Integer startIndex = (Integer) o1;
 			BreadthFirstDirectedPaths bfs = new BreadthFirstDirectedPaths(graph,startIndex.intValue());
@@ -77,18 +75,4 @@ public class SuperVectorMario {
 		}
 		return false;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
