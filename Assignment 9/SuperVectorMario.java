@@ -3,12 +3,12 @@ public class SuperVectorMario {
 		int rows = StdIn.readInt();
 		int colums = StdIn.readInt();
 		StdIn.readChar(); 						// remove linespace
-		StdIn.readChar(); 					// remove extra linespace (for Windows) if you get an index out of bounds error
+		StdIn.readChar(); 					// ATTENTION!!! Remove extra linespace (for Windows) if you get an index out of bounds error
 		String[] input = StdIn.readAllLines();	
 		char[][] grid = new char[colums][rows];	// stores all coordinates in a grid
 		Queue move = new Queue();				// Queue for moves
-		Bag start = new Bag();					// stores all start index'
-		Bag finish = new Bag();					// stores all finish index'
+		Bag start = new Bag();					// stores all start indecies
+		Bag finish = new Bag();					// stores all finish indecies
 		ST visited = new ST(); 					// stores all visited verticies
 		Digraph graph = new Digraph(rows*colums*colums);	// graph must be big enough to store all possibilities of coordinates with different velocity	
 
@@ -28,7 +28,7 @@ public class SuperVectorMario {
 				for (int startY = v1.getY()+v1.getDY()-1; startY <= v1.getY()+v1.getDY()+1; startY++) {
 					if (isLegalXY(startX, startY, rows-1, colums-1) && Character.toString(grid[startX][startY]).matches("S|\\s|F") && !isVisited(startX, startY, startX-v1.getX(), startY-v1.getY(),colums-1, visited)) { // check for visited verticies
 						vertexCount++;
-						move.enqueue(new Vertex(startX, startY, startX-v1.getX(), startY-v1.getY(), vertexCount));	// add new coordinates to queue
+						move.enqueue(new Vertex(startX, startY, startX-v1.getX(), startY-v1.getY(), vertexCount));	// add new vertex to queue
 						graph.addEdge(currentVertex,vertexCount);
 						if(Character.toString(grid[startX][startY]).matches("F")){	// add Finish index'
 							finish.add(vertexCount);
@@ -45,7 +45,7 @@ public class SuperVectorMario {
 			for (Object o2 : finish) {
 				Integer finishIndex = (Integer) o2;
 				int tmpMoves = bfs.distTo(finishIndex.intValue());
-				if(shortestMoves > tmpMoves){shortestMoves = tmpMoves;}
+				if(shortestMoves > tmpMoves) {shortestMoves = tmpMoves;}
 			}
 		}
 		StdOut.println("Moves: " + (shortestMoves +1));	// add one, since start counts as 1 move
@@ -57,7 +57,7 @@ public class SuperVectorMario {
 	}
 
 	public static boolean isVisited(int x, int y, int dx, int dy, int colums, ST visited){
-		int lookup = (colums * y) + (x +1);
+		int lookup = (colums * y) + (x +1); // calculates the integer value of a (x,y) coordinate
 		Vertex tmpV = new Vertex(x, y, dx, dy);
 		if (visited.contains(lookup)){				// has this been visited?
 			Bag list = (Bag) visited.get(lookup);	
